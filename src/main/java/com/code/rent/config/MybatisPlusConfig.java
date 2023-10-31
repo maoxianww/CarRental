@@ -1,13 +1,15 @@
 package com.code.rent.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
-import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * @author HeXin
+ */
 @Configuration
 public class MybatisPlusConfig {
 
@@ -22,13 +24,5 @@ public class MybatisPlusConfig {
         // 乐观锁
         interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
         return interceptor;
-    }
-
-    /**
-      * 自定义ID生成器
-      */
-
-    public IdentifierGenerator idGenerator() {
-        return null;
     }
 }
