@@ -19,7 +19,7 @@ public class BaseEntity {
     /**
       * id
       */
-    @TableId(value = "id")
+    @TableId(value = "id",type = IdType.AUTO)
     @JsonSerialize(using = ToStringSerializer.class)
     private String id;
     /**
