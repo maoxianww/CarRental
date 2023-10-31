@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.code.rent.mapper.VehicleMapper">
+
+    <resultMap id="BaseResultMap" type="com.code.rent.entity.Vehicle">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="brand" column="brand" jdbcType="VARCHAR"/>
+            <result property="model" column="model" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="TINYINT"/>
+            <result property="dailyRate" column="daily_rate" jdbcType="DECIMAL"/>
+            <result property="illustrate" column="illustrate" jdbcType="VARCHAR"/>
+            <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+            <result property="available" column="available" jdbcType="TINYINT"/>
+            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+            <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+            <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+            <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,brand,model,
+        type,daily_rate,illustrate,
+        avatar,available,gmt_create,
+        gmt_modified,create_by,update_by,
+        is_deleted
+    </sql>
+</mapper>
