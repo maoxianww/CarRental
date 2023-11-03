@@ -3,12 +3,21 @@ package com.code.rent.controller;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.annotation.SaCheckRole;
+import cn.dev33.satoken.annotation.SaIgnore;
+import cn.dev33.satoken.stp.StpUtil;
 import com.code.rent.common.Result;
+import com.code.rent.constants.RedisConstants;
 import com.code.rent.entity.User;
 import com.code.rent.entity.dto.LoginParam;
+import com.code.rent.entity.dto.UserDTO;
+import com.code.rent.entity.vo.UserVO;
 import com.code.rent.service.UserService;
+import com.code.rent.utils.EmailUtils;
+import com.code.rent.utils.RedisUtil;
+import com.code.rent.utils.ValidateCodeUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,27 +29,49 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private EmailUtils emailUtils;
+
+    @Autowired
+    private RedisUtil redisUtil;
+
     @Operation(summary = "登录")
     @PostMapping("/login")
     public Result<String> login(@RequestBody LoginParam login){
         return Result.success(userService.login(login));
     }
-    @Operation(summary = "根据id查询用户")
-    @GetMapping("/{id}")
-    @SaCheckRole("admin")
-    public Result<User> getById(@PathVariable Long id){
-        return Result.success(userService.getById(id));
+
+    @Operation(summary = "退出登录")
+    @SaIgnore
+    @GetMapping("/logout")
+    public Result<String> logout() {
+        StpUtil.logout(StpUtil.getLoginId());
+        return Result.success();
     }
-    @Operation(summary = "增加用户")
-    @PostMapping
-    @SaCheckRole("admin")
-    public Result create(@RequestBody User user){
-        return Result.isSuccess(userService.save(user));
+
+    @Operation(summary = "修改个人信息")
+    @PutMapping("/updateInfo")
+    public Result<String> updateInfo(@RequestBody UserDTO dto){
+        return Result.isSuccess(userService.updateById(UserDTO.toPo(dto)));
     }
-    @Operation(summary = "修改用户")
-    @PutMapping
-    @SaCheckRole("admin")
-    public Result update(@RequestBody User user){
-        return Result.isSuccess(userService.updateById(user));
+
+    @Operation(summary = "发送验证码")
+    @SaIgnore
+    @GetMapping("/sendCode")
+    public Result sendCode(@RequestParam("email") String email){
+        EmailUtils.isValidEmail(email);
+        String code = ValidateCodeUtils.generateValidateCodeUtils(6).toString();
+        // 调用邮箱服务发送验证码
+        emailUtils.sendMailMessage(email,code);
+        // 将生成的验证码存入Redis
+        redisUtil.set(RedisConstants.EMAIL_CODE,email,code);
+        return Result.success();
+    }
+
+    @Operation(summary = "注册账号")
+    @SaIgnore
+    @PostMapping("/regist")
+    public Result regist(@RequestBody UserDTO dto, @RequestParam("code") String code){
+        return Result.isSuccess(userService.regist(dto,code));
     }
 }

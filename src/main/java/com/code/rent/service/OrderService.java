@@ -2,6 +2,8 @@ package com.code.rent.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.code.rent.entity.Order;
+import com.code.rent.entity.dto.OrderDTO;
+import com.code.rent.entity.vo.OrderVO;
 
 /**
 * @author HeXin
@@ -10,4 +12,5 @@ import com.code.rent.entity.Order;
 */
 public interface OrderService extends IService<Order> {
 
+    OrderVO create(OrderDTO dto);
 }
