@@ -84,5 +84,15 @@ public class Result<T>{
     /**
       * 分页结果
       */
+    public static <P> Result<PageInfo<P>> page(IPage<P> page){
+        PageInfo<P> pageInfo = new PageInfo<P>().setList(page.getRecords()).setTotal(page.getTotal());
+        return success(pageInfo);
+    }
 
+    /**
+      * 返回结果
+      */
+    public static <T> Result<T> result(CodeEnum codeEnum){
+        return new Result<T>().message(codeEnum.getMsg()).code(codeEnum.getCode());
+    }
 }
