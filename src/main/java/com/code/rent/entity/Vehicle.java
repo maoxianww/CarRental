@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import com.code.rent.entity.base.BaseEntity;
+import com.code.rent.entity.vo.VehicleVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -37,6 +38,12 @@ public class Vehicle extends BaseEntity implements Serializable {
      */
     @TableField(value = "model")
     private String model;
+
+    /**
+      * 车牌号
+      */
+    @TableField(value = "license")
+    private String license;
 
     /**
      * 车辆类型(0: 轿车 1: 客车 2: 货车)
@@ -71,4 +78,22 @@ public class Vehicle extends BaseEntity implements Serializable {
     @Serial
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
+    public static VehicleVO toVo(Vehicle vehicle){
+
+        if (vehicle == null) {
+            return null;
+        }
+        VehicleVO vehicleVO = new VehicleVO();
+        vehicleVO.setId(vehicle.getId());
+        vehicleVO.setBrand(vehicle.getBrand());
+        vehicleVO.setModel(vehicle.getModel());
+        vehicleVO.setLicense(vehicle.getLicense());
+        vehicleVO.setType(vehicle.getType());
+        vehicleVO.setDailyRate(vehicle.getDailyRate());
+        vehicleVO.setIllustrate(vehicle.getIllustrate());
+        vehicleVO.setAvatar(vehicle.getAvatar());
+        vehicleVO.setAvailable(vehicle.getAvailable());
+        return vehicleVO;
+    }
 }

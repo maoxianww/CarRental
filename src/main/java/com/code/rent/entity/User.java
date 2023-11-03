@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.code.rent.entity.base.BaseEntity;
+import com.code.rent.entity.vo.UserVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -76,4 +77,22 @@ public class User extends BaseEntity implements Serializable {
     @Serial
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
+    public static UserVO toVo(User user){
+
+        if (user == null) {
+            return null;
+        }
+        UserVO userVO = new UserVO();
+        userVO.setId(user.getId());
+        userVO.setUserName(user.getUserName());
+        userVO.setPassword(user.getPassword());
+        userVO.setNickname(user.getNickname());
+        userVO.setAvater(user.getAvater());
+        userVO.setEmail(user.getEmail());
+        userVO.setAddress(user.getAddress());
+        userVO.setType(user.getType());
+        userVO.setState(user.getState());
+        return userVO;
+    }
 }

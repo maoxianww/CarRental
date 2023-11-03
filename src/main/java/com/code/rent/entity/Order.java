@@ -1,19 +1,18 @@
 package com.code.rent.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.code.rent.entity.base.BaseEntity;
+import com.code.rent.entity.vo.OrderVO;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-
-import com.code.rent.entity.base.BaseEntity;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 /**
  * 
@@ -78,4 +77,21 @@ public class Order extends BaseEntity implements Serializable{
     @Serial
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
+    public static OrderVO toVo(Order order){
+
+        if (order == null) {
+            return null;
+        }
+        OrderVO orderVO = new OrderVO();
+        orderVO.setId(order.getId());
+        orderVO.setUid(order.getUid());
+        orderVO.setVehicleId(order.getVehicleId());
+        orderVO.setStart(order.getStart());
+        orderVO.setEnd(order.getEnd());
+        orderVO.setIllustrate(order.getIllustrate());
+        orderVO.setReturnTime(order.getReturnTime());
+        orderVO.setTotalCost(order.getTotalCost());
+        return orderVO;
+    }
 }
