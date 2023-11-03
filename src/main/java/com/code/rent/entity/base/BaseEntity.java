@@ -1,9 +1,6 @@
 package com.code.rent.entity.base;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
@@ -20,31 +17,30 @@ public class BaseEntity {
       * id
       */
     @TableId(value = "id",type = IdType.AUTO)
-    @JsonSerialize(using = ToStringSerializer.class)
     private String id;
     /**
      * 创建时间
      */
-    @TableField(value = "gmt_create")
+    @TableField(value = "gmt_create",fill = FieldFill.INSERT)
     private Date gmtCreate;
 
     /**
      * 更新时间
      */
-    @TableField(value = "gmt_modified")
+    @TableField(value = "gmt_modified",fill = FieldFill.INSERT_UPDATE)
     private Date gmtModified;
 
     /**
      * 创建者
      */
-    @TableField(value = "create_by")
-    private String createBy;
+    @TableField(value = "create_by",fill = FieldFill.INSERT)
+    private Long createBy;
 
     /**
      * 更新着
      */
-    @TableField(value = "update_by")
-    private String updateBy;
+    @TableField(value = "update_by",fill = FieldFill.INSERT_UPDATE)
+    private Long updateBy;
 
     /**
      * 逻辑删除
