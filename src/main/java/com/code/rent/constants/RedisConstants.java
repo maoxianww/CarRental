@@ -2,7 +2,28 @@ package com.code.rent.constants;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * redis常量
+ * @author HeXin
+ */
+
 public enum RedisConstants {
+    /**
+      * 用户常量
+      */
+    USER("User:",1800L,TimeUnit.SECONDS),
+    /**
+      * 用户角色常量
+      */
+    USER_ROLE("User:role:",1800L,TimeUnit.SECONDS),
+    /**
+      * 用户权限常量
+      */
+    USER_PERMISSION("User:permission:",1800L,TimeUnit.SECONDS),
+    /**
+      * 邮箱验证码常量
+      */
+    EMAIL_CODE("Email:code:", 300L,TimeUnit.SECONDS)
     ;
     /**
      * 键

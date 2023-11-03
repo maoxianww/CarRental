@@ -2,6 +2,9 @@ package com.code.rent.utils;
 
 import cn.hutool.crypto.digest.MD5;
 
+/**
+ * @author HeXin
+ */
 public class PasswordUtils {
     /**
       * 加密盐

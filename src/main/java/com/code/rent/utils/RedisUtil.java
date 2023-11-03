@@ -1,6 +1,7 @@
 package com.code.rent.utils;
 
 
+import com.code.rent.constants.RedisConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -77,18 +78,28 @@ public class RedisUtil {
     }
 
     /**
-     * 将值放入缓存并设置时间
+     * 将值放入缓存并设置时间及时间单位
      *
      * @param key 键   键
      * @param value 值
      * @param time  时间(秒) -1为无期限
+     * @param timeUnit 时间单位
      *
      */
-    public void set(String key, Object value, long time) {
+    public void set(String key, Object value, long time,TimeUnit timeUnit) {
         if (time > 0) {
-            redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
+            redisTemplate.opsForValue().set(key, value, time, timeUnit);
         } else {
             redisTemplate.opsForValue().set(key, value);
+        }
+    }
+
+    public void set(RedisConstants redisConstants,String key,Object value){
+        Long ttl = redisConstants.getTtl();
+        if(ttl > 0){
+            redisTemplate.opsForValue().set(redisConstants.getKey()+key,value,ttl,redisConstants.getTimeUnit());
+        }else{
+            redisTemplate.opsForValue().set(redisConstants.getKey() + key,value);
         }
     }
     /**
