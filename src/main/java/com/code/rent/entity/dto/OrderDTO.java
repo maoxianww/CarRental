@@ -15,6 +15,4 @@ public class OrderDTO {
     private Date end;
     @Schema(description = "车辆信息描述")
     private String illustrate;
-    @Schema(description = "车辆归还日期")
-    private Date returnTime;
 }

@@ -14,7 +14,25 @@ import org.springframework.stereotype.Service;
 @Service
 public class VehicleServiceImpl extends ServiceImpl<VehicleMapper, Vehicle>
     implements VehicleService{
+    @Override
+    public Long getInventory(String brand, String model, Integer type) {
+        return lambdaQuery()
+                .eq(Vehicle::getBrand,brand)
+                .eq(Vehicle::getModel,model)
+                .eq(Vehicle::getType,type)
+                .eq(Vehicle::getAvailable,1)
+                .count();
+    }
 
+    @Override
+    public Long getInventory(Vehicle vehicle) {
+        return lambdaQuery()
+                .eq(Vehicle::getBrand,vehicle.getBrand())
+                .eq(Vehicle::getModel,vehicle.getModel())
+                .eq(Vehicle::getType,vehicle.getType())
+                .eq(Vehicle::getAvailable,1)
+                .count();
+    }
 }
 
 

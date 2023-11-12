@@ -10,4 +10,22 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface VehicleService extends IService<Vehicle> {
 
+    /**
+     * 获取库存
+     *
+     * @param brand 品牌
+     * @param model 型
+     * @param type  类型
+     * @return {@link Long}
+     */
+    Long getInventory(String brand,String model,Integer type);
+
+    /**
+     * 获取库存
+     *
+     * @param vehicle 车辆
+     * @return {@link Long}
+     */
+    Long getInventory(Vehicle vehicle);
+
 }

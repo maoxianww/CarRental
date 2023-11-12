@@ -12,6 +12,7 @@ import java.util.Date;
 
 import com.code.rent.entity.base.BaseEntity;
 import com.code.rent.entity.vo.VehicleVO;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -75,6 +76,13 @@ public class Vehicle extends BaseEntity implements Serializable {
     @TableField(value = "available")
     private Integer available;
 
+    /**
+     * 库存
+     */
+    @TableField(exist = false)
+    @Schema(description = "同类型车库存数量")
+    private Long inventory;
+
     @Serial
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
@@ -94,6 +102,7 @@ public class Vehicle extends BaseEntity implements Serializable {
         vehicleVO.setIllustrate(vehicle.getIllustrate());
         vehicleVO.setAvatar(vehicle.getAvatar());
         vehicleVO.setAvailable(vehicle.getAvailable());
+        vehicleVO.setInventory(vehicle.getInventory());
         return vehicleVO;
     }
 }

@@ -34,7 +34,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         String password = login.getPassword();
         User user = getUserByName(username);
         if(user == null){
-            throw new CustomException(CodeEnum.USER_NOT_FOUND);
+            user = getUserByEmail(username);
+            if(user == null){
+                throw new CustomException(CodeEnum.USER_NOT_FOUND);
+            }
         }
         if(!PasswordUtils.match(password,user.getPassword())){
             throw new CustomException(CodeEnum.PASSWORD_ERROR);
@@ -49,6 +52,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Override
     public User getUserByName(String username) {
         return lambdaQuery().select(User::getId,User::getUserName,User::getPassword,User::getType).eq(User::getUserName,username).one();
+    }
+
+    private User getUserByEmail(String email){
+        return lambdaQuery().select(User::getId,User::getUserName,User::getPassword,User::getType)
+                .eq(User::getEmail,email)
+                .one();
     }
 
     @Override

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
 
@@ -32,31 +33,44 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order>
 
     @Override
     public OrderVO create(OrderDTO dto) {
-        OrderVO vo = new OrderVO();
         // 查询订单中车辆的日租金
         Vehicle vehicle = vehicleService.lambdaQuery().eq(Vehicle::getId, dto.getVehicleId()).one();
-        // 计算正常还车天数
-        long normal = DateUtil.betweenDay(dto.getStart(), dto.getEnd(), true);
-        // 计算实际还车天数
-        long actual = DateUtil.betweenDay(dto.getStart(), dto.getReturnTime(), true);
-        if(actual > normal){
-            // 如果归还时间超过正常还车时间，则超过一天的日租金按照正常日租金的1.5倍支付
-            vo.setTotalCost(vehicle.getDailyRate().multiply (BigDecimal.valueOf(normal).add(BigDecimal.valueOf(actual - normal).multiply(BigDecimal.valueOf(1.5)))));
-        }else{
-            vo.setTotalCost(vehicle.getDailyRate().multiply(BigDecimal.valueOf(normal)));
-        }
+        OrderVO vo = new OrderVO();
         // 时间戳加随机数生成订单id
         vo.setId(String.valueOf(System.currentTimeMillis()+random.nextInt(99999)));
         vo.setStart(dto.getStart());
         vo.setEnd(dto.getEnd());
         vo.setUid(StpUtil.getLoginIdAsLong());
         vo.setIllustrate(dto.getIllustrate());
-        vo.setVehicleId(dto.getVehicleId());
+        vo.setLicense(vehicle.getLicense());
         save(OrderVO.toPo(vo));
         // 更新车辆可用性状态
         vehicle.setAvailable(0);
         vehicleService.updateById(vehicle);
         return null;
+    }
+
+    @Override
+    public OrderVO finish(String orderId) {
+        Order order = getById(orderId);
+        // 查询订单中车辆的日租金
+        Vehicle vehicle = vehicleService.lambdaQuery().eq(Vehicle::getId, order.getVehicleId()).one();
+        // 计算正常还车天数
+        long normal = DateUtil.betweenDay(order.getStart(), order.getEnd(), true);
+        // 计算实际还车天数
+        long actual = DateUtil.betweenDay(order.getStart(), new Date(), true);
+        if(actual > normal){
+            // 如果归还时间超过正常还车时间，则超过一天的日租金按照正常日租金的1.5倍支付
+            order.setTotalCost(vehicle.getDailyRate().multiply (BigDecimal.valueOf(normal).add(BigDecimal.valueOf(actual - normal).multiply(BigDecimal.valueOf(1.5)))));
+        }else{
+            order.setTotalCost(vehicle.getDailyRate().multiply(BigDecimal.valueOf(normal)));
+        }
+        // 设置还车时间
+        order.setReturnTime(new Date());
+        OrderVO vo = Order.toVo(order);
+        vo.setLicense(vehicle.getLicense());
+        updateById(order);
+        return vo;
     }
 }
 

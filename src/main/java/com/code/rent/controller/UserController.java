@@ -1,8 +1,6 @@
 package com.code.rent.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
-import cn.dev33.satoken.annotation.SaCheckPermission;
-import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.stp.StpUtil;
 import com.code.rent.common.Result;
@@ -10,14 +8,13 @@ import com.code.rent.constants.RedisConstants;
 import com.code.rent.entity.User;
 import com.code.rent.entity.dto.LoginParam;
 import com.code.rent.entity.dto.UserDTO;
-import com.code.rent.entity.vo.UserVO;
+import com.code.rent.entity.vo.UserInfo;
 import com.code.rent.service.UserService;
 import com.code.rent.utils.EmailUtils;
 import com.code.rent.utils.RedisUtil;
 import com.code.rent.utils.ValidateCodeUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -73,5 +70,18 @@ public class UserController {
     @PostMapping("/regist")
     public Result regist(@RequestBody UserDTO dto, @RequestParam("code") String code){
         return Result.isSuccess(userService.regist(dto,code));
+    }
+
+    @Operation(summary = "获取用户信息")
+    @GetMapping("/info")
+    public Result<UserInfo> getUserInfo(){
+        long id = StpUtil.getLoginIdAsLong();
+        User user = (User) redisUtil.get(RedisConstants.USER.getKey() + id);
+        String role = userService.getUserRole(user);
+        UserInfo info = new UserInfo();
+        info.setName(user.getUserName());
+        info.setRole(role);
+        info.setAvatar(user.getAvater());
+        return Result.success(info);
     }
 }

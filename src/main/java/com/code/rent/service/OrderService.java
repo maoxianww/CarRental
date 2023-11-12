@@ -13,4 +13,6 @@ import com.code.rent.entity.vo.OrderVO;
 public interface OrderService extends IService<Order> {
 
     OrderVO create(OrderDTO dto);
+
+    OrderVO finish(String orderId);
 }

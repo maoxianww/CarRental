@@ -86,7 +86,6 @@ public class Order extends BaseEntity implements Serializable{
         OrderVO orderVO = new OrderVO();
         orderVO.setId(order.getId());
         orderVO.setUid(order.getUid());
-        orderVO.setVehicleId(order.getVehicleId());
         orderVO.setStart(order.getStart());
         orderVO.setEnd(order.getEnd());
         orderVO.setIllustrate(order.getIllustrate());

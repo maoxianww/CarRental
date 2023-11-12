@@ -363,18 +363,20 @@ public class RedisUtil {
     }
 
     /**
+     * 增加
      * 给指定 hash 的 hashkey 做增减操作
      *
-     * @param key 键
-     * @param hashKey
+     * @param key     键
+     * @param hashKey 哈希键
      * @param number
-     * @return
+     * @return {@link Double}
      */
     public Double increment(String key, String hashKey, Double number) {
         return redisTemplate.opsForHash().increment(key, hashKey, number);
     }
 
     /**
+     * 哈希键
      * 获取 key 下的 所有 hashkey 字段
      *
      * @param key 键
@@ -385,6 +387,7 @@ public class RedisUtil {
     }
 
     /**
+     * 哈希大小
      * 获取指定 hash 下面的 键值对 数量
      *
      * @param key 键

@@ -27,6 +27,11 @@ public class VehicleVO {
     private String avatar;
     @Schema(description = "车辆可用性状态(0:已租出 1:未租出 2:车辆异常)")
     private Integer available;
+    /**
+     * 库存
+     */
+    @Schema(description = "同类型车库存数量")
+    private Long inventory;
 
     public static Vehicle toPo(VehicleVO vo){
 
@@ -43,6 +48,7 @@ public class VehicleVO {
         vehicle.setAvatar(vo.getAvatar());
         vehicle.setAvailable(vo.getAvailable());
         vehicle.setId(vo.getId());
+        vehicle.setInventory(vo.getInventory());
         return vehicle;
     }
 }
