@@ -51,7 +51,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     @Override
     public User getUserByName(String username) {
-        return lambdaQuery().select(User::getId,User::getUserName,User::getPassword,User::getType).eq(User::getUserName,username).one();
+        return lambdaQuery().select(User::getId,User::getUserName,User::getPassword,User::getType,User::getAvater).eq(User::getUserName,username).one();
     }
 
     private User getUserByEmail(String email){
@@ -68,7 +68,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         if(user == null){
             throw new CustomException(CodeEnum.USER_NOT_FOUND);
         }
-        if(PasswordUtils.match(password,user.getPassword())){
+        if(!PasswordUtils.match(password,user.getPassword())){
             throw new CustomException(CodeEnum.PASSWORD_ERROR);
         }
         if(user.getType()!=0){

@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.code.rent.common.PageInfo;
 import com.code.rent.common.Result;
+import com.code.rent.constants.RedisConstants;
 import com.code.rent.entity.Order;
 import com.code.rent.entity.User;
 import com.code.rent.entity.Vehicle;
@@ -18,6 +19,7 @@ import com.code.rent.service.OrderService;
 import com.code.rent.service.UserService;
 import com.code.rent.service.VehicleService;
 import com.code.rent.utils.PasswordUtils;
+import com.code.rent.utils.RedisUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.lang3.StringUtils;
@@ -57,6 +59,9 @@ public class AdminController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private RedisUtil redisUtil;
+
     /**
      * 登录
      *
@@ -77,8 +82,13 @@ public class AdminController {
      */
     @Operation(summary = "根据id查询用户")
     @GetMapping("/user/{id}")
-    public Result<User> getById(@PathVariable Long id){
-        return Result.success(userService.getById(id));
+    public Result<User> getById(@PathVariable String id){
+        User user = (User) redisUtil.get(RedisConstants.USER.getKey() + id);
+        if(user==null){
+            user = userService.getById(id);
+            redisUtil.set(RedisConstants.USER,id,user);
+        }
+        return Result.success(user);
     }
 
     /**
@@ -91,20 +101,23 @@ public class AdminController {
     @PostMapping("/save/user")
     public Result saveUser(@RequestBody UserDTO user){
         user.setPassword(PasswordUtils.encrypt(user.getPassword()));
+        redisUtil.set(RedisConstants.USER,user.getId(),user);
         return Result.isSuccess(userService.save(UserDTO.toPo(user)));
     }
 
     /**
      * 更新用户
      *
-     * @param user 用户
+     * @param dto 用户
      * @return {@link Result}
      */
     @Operation(summary = "修改用户信息")
     @PutMapping("/update/user")
-    public Result updateUser(@RequestBody UserDTO user){
-        user.setPassword(PasswordUtils.encrypt(user.getPassword()));
-        return Result.isSuccess(userService.updateById(UserDTO.toPo(user)));
+    public Result updateUser(@RequestBody UserDTO dto){
+        dto.setPassword(PasswordUtils.encrypt(dto.getPassword()));
+        User user = UserDTO.toPo(dto);
+        redisUtil.set(RedisConstants.USER,user.getId(),user);
+        return Result.isSuccess(userService.updateById(user));
     }
 
     /**
@@ -117,6 +130,9 @@ public class AdminController {
     @GetMapping("/logout")
     public Result<String> logout() {
         StpUtil.logout(StpUtil.getLoginId());
+        redisUtil.remove(RedisConstants.USER.getKey()+StpUtil.getLoginId());
+        redisUtil.remove(RedisConstants.USER_ROLE.getKey()+StpUtil.getLoginId());
+        redisUtil.remove(RedisConstants.USER_PERMISSION.getKey()+StpUtil.getLoginId());
         return Result.success();
     }
 
@@ -151,9 +167,11 @@ public class AdminController {
      */
     @Operation(summary = "修改用户状态")
     @PutMapping("/user/changeStatus")
-    public Result userChangeStatus(@RequestParam("id") Long id,@RequestParam("userState") Integer userState){
+    public Result userChangeStatus(@RequestParam("id") String id,@RequestParam("userState") Integer userState){
         User user = userService.getById(id);
         user.setState(userState);
+        // 更新缓存
+        redisUtil.set(RedisConstants.USER,user.getId(),user);
         return Result.isSuccess(userService.updateById(user));
     }
 
@@ -166,9 +184,11 @@ public class AdminController {
      */
     @Operation(summary = "修改用户类型")
     @PutMapping("/user/changeType")
-    public Result userChangeType(@RequestParam("id") Long id,@RequestParam("userType") Integer userType){
+    public Result userChangeType(@RequestParam("id") String id,@RequestParam("userType") Integer userType){
         User user = userService.getById(id);
         user.setType(userType);
+        // 更新缓存
+        redisUtil.set(RedisConstants.USER,user.getId(),user);
         return Result.isSuccess(userService.updateById(user));
     }
 
@@ -180,7 +200,8 @@ public class AdminController {
      */
     @Operation(summary = "删除用户")
     @DeleteMapping("/delete/user/{id}")
-    public Result deleteUser(@PathVariable Long id){
+    public Result deleteUser(@PathVariable String id){
+        redisUtil.remove(RedisConstants.USER.getKey()+id);
         return  Result.isSuccess(userService.removeById(id));
     }
 
@@ -204,7 +225,7 @@ public class AdminController {
      */
     @Operation(summary = "删除车辆")
     @DeleteMapping("/delete/vehicle/{id}")
-    public Result deleteVehicle(@PathVariable Long id){
+    public Result deleteVehicle(@PathVariable String id){
         return Result.isSuccess(vehicleService.removeById(id));
     }
 
@@ -229,7 +250,7 @@ public class AdminController {
      */
     @Operation(summary = "修改车辆状态")
     @PutMapping("/vehicle/chageStatus")
-    public Result updateVehicleStatus(@RequestParam("id") Long id,@RequestParam("status") Integer status){
+    public Result updateVehicleStatus(@RequestParam("id") String id,@RequestParam("status") Integer status){
         Vehicle vehicle = vehicleService.getById(id);
         vehicle.setAvailable(status);
         return Result.isSuccess(vehicleService.updateById(vehicle));
@@ -302,7 +323,7 @@ public class AdminController {
      */
     @Operation(summary = "修改订单状态")
     @PutMapping("/order/changeStatus")
-    public Result orderChangeStatus(@RequestParam("id") Long id,@RequestParam("orderStatus")Integer orderStatus){
+    public Result orderChangeStatus(@RequestParam("id") String id,@RequestParam("orderStatus")Integer orderStatus){
         Order order = orderService.getById(id);
         order.setStatus(orderStatus);
         return Result.isSuccess(orderService.updateById(order));
@@ -316,7 +337,7 @@ public class AdminController {
      */
     @Operation(summary = "删除订单")
     @DeleteMapping("/delete/order/{id}")
-    public Result deleteOrder(@PathVariable Long id) {
+    public Result deleteOrder(@PathVariable String id) {
         return Result.isSuccess(orderService.removeById(id));
     }
 }

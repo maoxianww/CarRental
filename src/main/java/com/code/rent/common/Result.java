@@ -3,7 +3,6 @@ package com.code.rent.common;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.code.rent.constants.CodeEnum;
-import com.code.rent.constants.SystemConstants;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -85,7 +84,12 @@ public class Result<T>{
       * 分页结果
       */
     public static <P> Result<PageInfo<P>> page(IPage<P> page){
-        PageInfo<P> pageInfo = new PageInfo<P>().setList(page.getRecords()).setTotal(page.getTotal());
+        PageInfo<P> pageInfo = new PageInfo<P>()
+                .setList(page.getRecords())
+                .setTotal(page.getTotal())
+                .setPages(page.getPages())
+                .setSize(page.getSize())
+                .setCurrent(page.getCurrent());
         return success(pageInfo);
     }
 

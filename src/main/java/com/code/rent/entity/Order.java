@@ -1,6 +1,8 @@
 package com.code.rent.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.code.rent.entity.base.BaseEntity;
 import com.code.rent.entity.vo.OrderVO;
@@ -20,7 +22,7 @@ import java.util.Date;
  * @TableName order
  */
 @EqualsAndHashCode(callSuper = true)
-@TableName(value ="order")
+@TableName(value ="`order`")
 @Data
 @Accessors(chain = true)
 @Schema(name = "用户类",description = "用户实体类")
@@ -30,24 +32,24 @@ public class Order extends BaseEntity implements Serializable{
      * 订单用户id
      */
     @TableField(value = "uid")
-    private Long uid;
+    private String uid;
 
     /**
      * 租赁车辆id
      */
     @TableField(value = "vehicle_id")
-    private Long vehicleId;
+    private String vehicleId;
 
     /**
      * 租赁开始日期
      */
-    @TableField(value = "start")
+    @TableField(value = "`start`")
     private Date start;
 
     /**
      * 租赁结束日期
      */
-    @TableField(value = "end")
+    @TableField(value = "`end`")
     private Date end;
 
     /**
@@ -63,9 +65,9 @@ public class Order extends BaseEntity implements Serializable{
     private BigDecimal totalCost;
 
     /**
-     * 订单状态(0: 未支付 1: 已支付 2: 已完成 3: 已取消 4: 订单异常)
+     * 订单状态(0: 未支付  1: 已支付  2: 已完成  3: 已取消  4: 订单异常  5: 取消订单)
      */
-    @TableField(value = "status")
+    @TableField(value = "`status`")
     private Integer status;
 
     /**
@@ -86,11 +88,14 @@ public class Order extends BaseEntity implements Serializable{
         OrderVO orderVO = new OrderVO();
         orderVO.setId(order.getId());
         orderVO.setUid(order.getUid());
+        orderVO.setVehicleId(order.getVehicleId());
         orderVO.setStart(order.getStart());
         orderVO.setEnd(order.getEnd());
         orderVO.setIllustrate(order.getIllustrate());
         orderVO.setReturnTime(order.getReturnTime());
         orderVO.setTotalCost(order.getTotalCost());
+        orderVO.setStatus(order.getStatus());
+
         return orderVO;
     }
 }

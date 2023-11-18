@@ -49,7 +49,7 @@ public class Vehicle extends BaseEntity implements Serializable {
     /**
      * 车辆类型(0: 轿车 1: 客车 2: 货车)
      */
-    @TableField(value = "type")
+    @TableField(value = "`type`")
     private Integer type;
 
     /**

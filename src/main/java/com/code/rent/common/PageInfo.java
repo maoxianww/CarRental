@@ -18,4 +18,11 @@ public class PageInfo<T> {
     List<T> list;
     @Schema(name = "total",description = "分页数据总数")
     long total;
+    @Schema(name = "current",description = "当前页数")
+    long current;
+    @Schema(name = "size",description = "总数据量")
+    long size;
+    @Schema(name = "sizes",description = "总分页页数")
+    long pages;
+
 }

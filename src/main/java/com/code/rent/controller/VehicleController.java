@@ -18,9 +18,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * 车辆控制器
@@ -100,10 +99,35 @@ public class VehicleController {
      */
     @Operation(summary = "根据id获取车辆信息")
     @GetMapping("/{id}")
-    public Result<VehicleVO> getVehicleById(@PathVariable  Long id){
+    public Result<VehicleVO> getVehicleById(@PathVariable  String id){
         Vehicle vehicle = vehicleService.getById(id);
         vehicle.setInventory(vehicleService.getInventory(vehicle));
         return Result.success(Vehicle.toVo(vehicle));
     }
 
+    @Operation(summary = "获取车辆信息列表(根据用户根据用户类别)")
+    @GetMapping("/list")
+    public Result<List<VehicleVO>> getVehicleList(){
+        // 获取用户类型
+        String role = null;
+        if(StpUtil.isLogin()){
+            role = (String) redisUtil.get(RedisConstants.USER_ROLE.getKey() + StpUtil.getLoginId());
+        }
+        List<Vehicle> list;
+        if("admin".equals(role) || "vip".equals(role)){
+            list = vehicleService.lambdaQuery()
+                    .eq(Vehicle::getAvailable,1)
+                    .list();
+        } else if("user".equals(role) || StringUtils.isBlank(role)){
+            list = vehicleService.lambdaQuery()
+                    .eq(Vehicle::getType,0)
+                    .eq(Vehicle::getAvailable,1)
+                    .list();
+        }else{
+            throw new CustomException(CodeEnum.SYSTEM_REPAIR);
+        }
+        List<VehicleVO> voList = new ArrayList<>();
+        list.forEach(vehicle->voList.add(Vehicle.toVo(vehicle)));
+        return Result.success(voList);
+    }
 }

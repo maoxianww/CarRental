@@ -6,6 +6,10 @@ import lombok.Data;
 
 @Data
 public class UserDTO {
+
+    @Schema(description = "id")
+    private String id;
+    @Schema(description = "用户名")
     private String userName;
     @Schema(description = "密码")
     private String password;
@@ -28,6 +32,7 @@ public class UserDTO {
             return null;
         }
         User user = new User();
+        user.setId(dto.getId());
         user.setUserName(dto.getUserName());
         user.setPassword(dto.getPassword());
         user.setNickname(dto.getNickname());

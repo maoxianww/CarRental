@@ -39,6 +39,7 @@ public class VehicleVO {
             return null;
         }
         Vehicle vehicle = new Vehicle();
+        vehicle.setId(vo.getId());
         vehicle.setBrand(vo.getBrand());
         vehicle.setModel(vo.getModel());
         vehicle.setLicense(vo.getLicense());

@@ -41,9 +41,6 @@ public enum CodeEnum {
       * 验证码失效
       */
     CODE_EXPIRED(205,"验证码已过期！"),
-    /**
-      * 验证码已超时
-      */
 
     /**
       * 未登录
@@ -82,6 +79,22 @@ public enum CodeEnum {
       * 系统异常
       */
     SYSTEM_ERROR(502,"服务器异常！"),
+
+    /**
+      * 订单修改时间已过
+      */
+    ORDER_EXPIRED_MODIFICATION(315,"修改时间已过！无法进行修改！"),
+
+    /**
+      * 订单已经修改过
+      */
+    ORDER_ALREADY_MODIFICATION(325,"订单只运行修改一次！"),
+
+    /**
+      * 订单异常
+      */
+    ORDER_ABNORMAL(335,"订单异常！"),
+
     /**
       * 没有权限
       *

@@ -26,12 +26,12 @@ public class OrderVO {
      * uid
      */
     @Schema(description = "用户id")
-    private Long uid;
+    private String uid;
     /**
      * 许可证
      */
     @Schema(description = "车辆车牌号")
-    private String license;
+    private String vehicleId;
     /**
      * 开始
      */
@@ -59,6 +59,12 @@ public class OrderVO {
     private BigDecimal totalCost;
 
     /**
+     * 订单状态(0: 未支付  1: 已支付  2: 已完成  3: 已取消  4: 订单异常  5: 取消订单)
+     */
+    @Schema(description = "订单状态(0: 未支付  1: 已支付  2: 已完成  3: 已取消  4: 订单异常  5: 取消订单)")
+    private Integer status;
+
+    /**
      * 至 po
      *
      * @param vo VO
@@ -70,12 +76,14 @@ public class OrderVO {
         }
         Order order = new Order();
         order.setUid(vo.getUid());
+        order.setVehicleId(vo.getVehicleId());
         order.setStart(vo.getStart());
         order.setEnd(vo.getEnd());
         order.setReturnTime(vo.getReturnTime());
         order.setTotalCost(vo.getTotalCost());
         order.setIllustrate(vo.getIllustrate());
         order.setId(vo.getId());
+        order.setStatus(vo.getStatus());
         return order;
     }
 }

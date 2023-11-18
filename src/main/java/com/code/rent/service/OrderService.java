@@ -5,6 +5,8 @@ import com.code.rent.entity.Order;
 import com.code.rent.entity.dto.OrderDTO;
 import com.code.rent.entity.vo.OrderVO;
 
+import java.util.Date;
+
 /**
 * @author HeXin
 * @description 针对表【order】的数据库操作Service
@@ -15,4 +17,6 @@ public interface OrderService extends IService<Order> {
     OrderVO create(OrderDTO dto);
 
     OrderVO finish(String orderId);
+
+    Boolean update(String id, Date start, Date end);
 }

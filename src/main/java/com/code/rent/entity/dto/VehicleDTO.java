@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 
 @Data
 public class VehicleDTO {
+    @Schema(description = "id")
+    private String id;
     @Schema(description = "车辆品牌")
     private String brand;
     @Schema(description = "车辆型号")
@@ -31,6 +33,7 @@ public class VehicleDTO {
             return null;
         }
         Vehicle vehicle = new Vehicle();
+        vehicle.setId(vehicleDTO.getId());
         vehicle.setBrand(vehicleDTO.getBrand());
         vehicle.setModel(vehicleDTO.getModel());
         vehicle.setLicense(vehicleDTO.getLicense());

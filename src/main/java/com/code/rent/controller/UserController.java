@@ -11,6 +11,7 @@ import com.code.rent.entity.dto.UserDTO;
 import com.code.rent.entity.vo.UserInfo;
 import com.code.rent.service.UserService;
 import com.code.rent.utils.EmailUtils;
+import com.code.rent.utils.PasswordUtils;
 import com.code.rent.utils.RedisUtil;
 import com.code.rent.utils.ValidateCodeUtils;
 import io.swagger.v3.oas.annotations.Operation;
@@ -49,7 +50,11 @@ public class UserController {
     @Operation(summary = "修改个人信息")
     @PutMapping("/updateInfo")
     public Result<String> updateInfo(@RequestBody UserDTO dto){
-        return Result.isSuccess(userService.updateById(UserDTO.toPo(dto)));
+        User user = UserDTO.toPo(dto);
+        // 更新缓存
+        redisUtil.set(RedisConstants.USER,user.getId(),user);
+        user.setPassword(PasswordUtils.encrypt(user.getPassword()));
+        return Result.isSuccess(userService.updateById(user));
     }
 
     @Operation(summary = "发送验证码")
@@ -75,12 +80,13 @@ public class UserController {
     @Operation(summary = "获取用户信息")
     @GetMapping("/info")
     public Result<UserInfo> getUserInfo(){
-        long id = StpUtil.getLoginIdAsLong();
+        String id = StpUtil.getLoginIdAsString();
         User user = (User) redisUtil.get(RedisConstants.USER.getKey() + id);
         String role = userService.getUserRole(user);
         UserInfo info = new UserInfo();
         info.setName(user.getUserName());
         info.setRole(role);
+        info.setId(id);
         info.setAvatar(user.getAvater());
         return Result.success(info);
     }

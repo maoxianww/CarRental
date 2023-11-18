@@ -21,7 +21,7 @@ import lombok.experimental.Accessors;
  * @TableName user
  */
 @EqualsAndHashCode(callSuper = true)
-@TableName(value ="user")
+@TableName(value ="`user`")
 @Data
 @Accessors(chain = true)
 public class User extends BaseEntity implements Serializable {
@@ -35,7 +35,7 @@ public class User extends BaseEntity implements Serializable {
     /**
      * 密码
      */
-    @TableField(value = "password")
+    @TableField(value = "`password`")
     private String password;
 
     /**
@@ -65,7 +65,7 @@ public class User extends BaseEntity implements Serializable {
     /**
      * 用户类型(0：管理员 1：VIP用户  2：普通用户)
      */
-    @TableField(value = "type")
+    @TableField(value = "`type`")
     private Integer type;
 
     /**
