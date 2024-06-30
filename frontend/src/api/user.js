@@ -1,5 +1,5 @@
 import request from "@/utils/request";
-// 登录 
+// 登录部分
 export function login(data) {
   return request({
     url: "/user/login",
