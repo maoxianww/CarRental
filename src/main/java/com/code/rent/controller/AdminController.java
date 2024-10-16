@@ -20,11 +20,9 @@ import com.code.rent.service.UserService;
 import com.code.rent.service.VehicleService;
 import com.code.rent.utils.PasswordUtils;
 import com.code.rent.utils.RedisUtil;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
 
@@ -38,7 +36,7 @@ import java.util.Date;
 @RequestMapping("/admin")
 @SaCheckLogin
 @SaCheckRole("admin")
-@Tag(name = "管理员模块")
+//    @Tag(name = "管理员模块")
 public class AdminController {
 
     /**
@@ -68,7 +66,7 @@ public class AdminController {
      * @param param 参数
      * @return {@link Result}<{@link String}>
      */
-    @Operation(summary = "登录功能")
+    //    @Operation(summary = "登录功能")
     @PostMapping("/login")
     public Result<String> login(@RequestBody LoginParam param){
         return Result.success(userService.loginAdmin(param));
@@ -80,7 +78,7 @@ public class AdminController {
      * @param id 编号
      * @return {@link Result}<{@link User}>
      */
-    @Operation(summary = "根据id查询用户")
+    //    @Operation(summary = "根据id查询用户")
     @GetMapping("/user/{id}")
     public Result<User> getById(@PathVariable String id){
         User user = (User) redisUtil.get(RedisConstants.USER.getKey() + id);
@@ -97,7 +95,7 @@ public class AdminController {
      * @param user 用户
      * @return {@link Result}
      */
-    @Operation(summary = "增加用户")
+    //    @Operation(summary = "增加用户")
     @PostMapping("/save/user")
     public Result saveUser(@RequestBody UserDTO user){
         user.setPassword(PasswordUtils.encrypt(user.getPassword()));
@@ -111,7 +109,7 @@ public class AdminController {
      * @param dto 用户
      * @return {@link Result}
      */
-    @Operation(summary = "修改用户信息")
+    //    @Operation(summary = "修改用户信息")
     @PutMapping("/update/user")
     public Result updateUser(@RequestBody UserDTO dto){
         dto.setPassword(PasswordUtils.encrypt(dto.getPassword()));
@@ -125,7 +123,7 @@ public class AdminController {
      *
      * @return {@link Result}<{@link String}>
      */
-    @Operation(summary = "退出登录")
+    //    @Operation(summary = "退出登录")
     @SaIgnore
     @GetMapping("/logout")
     public Result<String> logout() {
@@ -145,7 +143,7 @@ public class AdminController {
      * @param type     类型
      * @return {@link Result}<{@link PageInfo}<{@link User}>>
      */
-    @Operation(summary = "分页查询用户结果")
+    //    @Operation(summary = "分页查询用户结果")
     @GetMapping("/user/page")
     public Result<PageInfo<User>> userPage(@RequestParam(required = false,defaultValue = "1") Long pageNum,
                                        @RequestParam(required = false,defaultValue = "10") Long pageSize,
@@ -165,7 +163,7 @@ public class AdminController {
      * @param userState 用户状态
      * @return {@link Result}
      */
-    @Operation(summary = "修改用户状态")
+    //    @Operation(summary = "修改用户状态")
     @PutMapping("/user/changeStatus")
     public Result userChangeStatus(@RequestParam("id") String id,@RequestParam("userState") Integer userState){
         User user = userService.getById(id);
@@ -182,7 +180,7 @@ public class AdminController {
      * @param userType
      * @return {@link Result}
      */
-    @Operation(summary = "修改用户类型")
+    //    @Operation(summary = "修改用户类型")
     @PutMapping("/user/changeType")
     public Result userChangeType(@RequestParam("id") String id,@RequestParam("userType") Integer userType){
         User user = userService.getById(id);
@@ -198,7 +196,7 @@ public class AdminController {
      * @param id 编号
      * @return {@link Result}
      */
-    @Operation(summary = "删除用户")
+    //    @Operation(summary = "删除用户")
     @DeleteMapping("/delete/user/{id}")
     public Result deleteUser(@PathVariable String id){
         redisUtil.remove(RedisConstants.USER.getKey()+id);
@@ -211,7 +209,7 @@ public class AdminController {
      * @param dto DTO
      * @return {@link Result}
      */
-    @Operation(summary = "增加车辆信息")
+    //    @Operation(summary = "增加车辆信息")
     @PostMapping("/save/vehicle")
     public Result saveVehicle(@RequestBody VehicleDTO dto){
         return Result.isSuccess(vehicleService.save(VehicleDTO.toPo(dto)));
@@ -223,7 +221,7 @@ public class AdminController {
      * @param id 编号
      * @return {@link Result}
      */
-    @Operation(summary = "删除车辆")
+    //    @Operation(summary = "删除车辆")
     @DeleteMapping("/delete/vehicle/{id}")
     public Result deleteVehicle(@PathVariable String id){
         return Result.isSuccess(vehicleService.removeById(id));
@@ -235,7 +233,7 @@ public class AdminController {
      * @param dto DTO
      * @return {@link Result}
      */
-    @Operation(summary = "修改车辆信息")
+    //    @Operation(summary = "修改车辆信息")
     @PutMapping("/update/vehicle")
     public Result updateVehicle(@RequestBody VehicleDTO dto){
         return Result.isSuccess(vehicleService.updateById(VehicleDTO.toPo(dto)));
@@ -248,7 +246,7 @@ public class AdminController {
      * @param status 地位
      * @return {@link Result}
      */
-    @Operation(summary = "修改车辆状态")
+    //    @Operation(summary = "修改车辆状态")
     @PutMapping("/vehicle/chageStatus")
     public Result updateVehicleStatus(@RequestParam("id") String id,@RequestParam("status") Integer status){
         Vehicle vehicle = vehicleService.getById(id);
@@ -265,7 +263,7 @@ public class AdminController {
      * @param key      钥匙
      * @return {@link Result}<{@link PageInfo}<{@link Vehicle}>>
      */
-    @Operation(summary = "分页查询车辆信息")
+    //    @Operation(summary = "分页查询车辆信息")
     @GetMapping("/vehicle/page")
     public Result<PageInfo<Vehicle>> vehiclePage(
             @RequestParam(required = false,defaultValue = "1") Long pageNum,
@@ -295,7 +293,7 @@ public class AdminController {
      * @param key      钥匙
      * @return {@link Result}<{@link PageInfo}<{@link Order}>>
      */
-    @Operation(summary = "分页查询订单信息")
+    //    @Operation(summary = "分页查询订单信息")
     @GetMapping("/order/page")
     public Result<PageInfo<Order>> orderPage(
             @RequestParam(required = false,defaultValue = "1") Long pageNum,
@@ -321,7 +319,7 @@ public class AdminController {
      * @param orderStatus 订单状态
      * @return {@link Result}
      */
-    @Operation(summary = "修改订单状态")
+    //    @Operation(summary = "修改订单状态")
     @PutMapping("/order/changeStatus")
     public Result orderChangeStatus(@RequestParam("id") String id,@RequestParam("orderStatus")Integer orderStatus){
         Order order = orderService.getById(id);
@@ -335,7 +333,7 @@ public class AdminController {
      * @param id 编号
      * @return {@link Result}
      */
-    @Operation(summary = "删除订单")
+    //    @Operation(summary = "删除订单")
     @DeleteMapping("/delete/order/{id}")
     public Result deleteOrder(@PathVariable String id) {
         return Result.isSuccess(orderService.removeById(id));

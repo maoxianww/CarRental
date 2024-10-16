@@ -12,8 +12,6 @@ import com.code.rent.entity.vo.VehicleVO;
 import com.code.rent.exception.CustomException;
 import com.code.rent.service.VehicleService;
 import com.code.rent.utils.RedisUtil;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +25,7 @@ import java.util.List;
  * @author HeXin
  * @date 2023/11/10
  */
-@Tag(name = "车辆模块")
+// //    @Tag(name = "车辆模块")
 @RestController
 @RequestMapping("/vehicle")
 public class VehicleController {
@@ -51,7 +49,7 @@ public class VehicleController {
      * @param key      钥匙
      * @return {@link Result}<{@link PageInfo}<{@link Vehicle}>>
      */
-    @Operation(summary = "车辆分页详情")
+//    //    @Operation(summary = "车辆分页详情")
     @GetMapping("/page")
     public Result<PageInfo<VehicleVO>> page(@RequestParam(value = "pageNum",defaultValue = "1") Long pageNum,
                                           @RequestParam(value = "pageSize",defaultValue = "10") Long pageSize,
@@ -97,7 +95,7 @@ public class VehicleController {
      * @param id 编号
      * @return {@link Result}<{@link Vehicle}>
      */
-    @Operation(summary = "根据id获取车辆信息")
+//    //    @Operation(summary = "根据id获取车辆信息")
     @GetMapping("/{id}")
     public Result<VehicleVO> getVehicleById(@PathVariable  String id){
         Vehicle vehicle = vehicleService.getById(id);
@@ -105,7 +103,7 @@ public class VehicleController {
         return Result.success(Vehicle.toVo(vehicle));
     }
 
-    @Operation(summary = "获取车辆信息列表(根据用户根据用户类别)")
+//    //    @Operation(summary = "获取车辆信息列表(根据用户根据用户类别)")
     @GetMapping("/list")
     public Result<List<VehicleVO>> getVehicleList(){
         // 获取用户类型

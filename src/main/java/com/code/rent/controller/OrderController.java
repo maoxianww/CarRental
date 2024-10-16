@@ -1,8 +1,6 @@
 package com.code.rent.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
-import cn.hutool.core.date.DateUnit;
-import cn.hutool.core.date.DateUtil;
 import com.code.rent.common.Result;
 import com.code.rent.constants.CodeEnum;
 import com.code.rent.entity.Order;
@@ -10,15 +8,12 @@ import com.code.rent.entity.dto.OrderDTO;
 import com.code.rent.entity.vo.OrderVO;
 import com.code.rent.exception.CustomException;
 import com.code.rent.service.OrderService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 订单控制器
@@ -26,7 +21,7 @@ import java.util.concurrent.TimeUnit;
  * @author HeXin
  * @date 2023/11/12
  */
-@Tag(name = "订单模块")
+// //    @Tag(name = "订单模块")
 @RestController
 @SaCheckLogin
 @RequestMapping("/order")
@@ -44,7 +39,7 @@ public class OrderController {
      * @param dto DTO
      * @return {@link Result}<{@link OrderVO}>
      */
-    @Operation(summary = "创建订单")
+//    //    @Operation(summary = "创建订单")
     @PostMapping("/create")
     public Result<OrderVO> createOrder(@RequestBody OrderDTO dto){
         return Result.success(orderService.create(dto));
@@ -56,7 +51,7 @@ public class OrderController {
      * @param orderId 订单编号
      * @return {@link Result}<{@link OrderVO}>
      */
-    @Operation(summary = "完成订单")
+//    //    @Operation(summary = "完成订单")
     @PostMapping("/finish/{orderId}")
     public Result<OrderVO> finishOrder(@PathVariable String orderId){
         return Result.success(orderService.finish(orderId));
@@ -68,7 +63,7 @@ public class OrderController {
      * @param uid uid
      * @return {@link Result}<{@link OrderVO}>
      */
-    @Operation(summary = "根据用户id获取订单详情")
+//    //    @Operation(summary = "根据用户id获取订单详情")
     @GetMapping("/details/{uid}")
     public Result<List<OrderVO>> getOrderDetailsByUid(@PathVariable String uid){
         List<Order> orders = orderService.lambdaQuery().eq(Order::getUid, uid).list();
@@ -83,13 +78,13 @@ public class OrderController {
      * @param id 编号
      * @return {@link Result}<{@link OrderVO}>
      */
-    @Operation(summary = "根据订单id获取订单")
+//    //    @Operation(summary = "根据订单id获取订单")
     @GetMapping("/detail/{id}")
     public Result<OrderVO> getOrderById(@PathVariable String id){
         return Result.success(Order.toVo(orderService.getById(id)));
     }
 
-    @Operation(summary = "修改租赁日期")
+//    //    @Operation(summary = "修改租赁日期")
     @PutMapping("/update/{id}")
     public Result<OrderVO> updateOrder(@PathVariable String id,
                                        @RequestParam("start")Date start,
@@ -103,7 +98,7 @@ public class OrderController {
      * @param id 编号
      * @return {@link Result}
      */
-    @Operation(summary = "取消订单")
+//    //    @Operation(summary = "取消订单")
     @PutMapping("/cancel/{id}")
     public Result cancelOrder(@PathVariable String id){
         Order order = orderService.getById(id);

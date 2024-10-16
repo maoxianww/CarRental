@@ -1,21 +1,16 @@
 package com.code.rent.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.code.rent.entity.base.BaseEntity;
+import com.code.rent.entity.vo.VehicleVO;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
-
-import com.code.rent.entity.base.BaseEntity;
-import com.code.rent.entity.vo.VehicleVO;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 /**
  * 
@@ -80,7 +75,7 @@ public class Vehicle extends BaseEntity implements Serializable {
      * 库存
      */
     @TableField(exist = false)
-    @Schema(description = "同类型车库存数量")
+    // @Schema(description = "同类型车库存数量")
     private Long inventory;
 
     @Serial

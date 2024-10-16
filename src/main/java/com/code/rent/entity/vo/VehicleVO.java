@@ -1,7 +1,6 @@
 package com.code.rent.entity.vo;
 
 import com.code.rent.entity.Vehicle;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -11,26 +10,26 @@ import java.math.BigDecimal;
 @Accessors(chain = true)
 public class VehicleVO {
     private String id;
-    @Schema(description = "车辆品牌")
+    // @Schema(description = "车辆品牌")
     private String brand;
-    @Schema(description = "车辆型号")
+    // @Schema(description = "车辆型号")
     private String model;
-    @Schema(description = "车牌号")
+    // @Schema(description = "车牌号")
     private String license;
-    @Schema(description = "车辆类型(0: 轿车 1: 客车 2: 货车)")
+    // @Schema(description = "车辆类型(0: 轿车 1: 客车 2: 货车)")
     private Integer type;
-    @Schema(description = "车辆日租金")
+    // @Schema(description = "车辆日租金")
     private BigDecimal dailyRate;
-    @Schema(description = "车辆信息描述")
+    // @Schema(description = "车辆信息描述")
     private String illustrate;
-    @Schema(description = "车辆图片")
+    // @Schema(description = "车辆图片")
     private String avatar;
-    @Schema(description = "车辆可用性状态(0:已租出 1:未租出 2:车辆异常)")
+    // @Schema(description = "车辆可用性状态(0:已租出 1:未租出 2:车辆异常)")
     private Integer available;
     /**
      * 库存
      */
-    @Schema(description = "同类型车库存数量")
+    // @Schema(description = "同类型车库存数量")
     private Long inventory;
 
     public static Vehicle toPo(VehicleVO vo){

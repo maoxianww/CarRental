@@ -3,22 +3,21 @@ package com.code.rent.common;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.code.rent.constants.CodeEnum;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
  * @author HeXin
  */
 @Data
-@Schema(name = "Result", title = "通用返回对象带泛型，用于传输简单对象")
+// @Schema(name = "Result", title = "通用返回对象带泛型，用于传输简单对象")
 public class Result<T>{
 
 
-    @Schema(name = "code", title = "返回状态", example = "200")
+    // @Schema(name = "code", title = "返回状态", example = "200")
      Integer code;
-    @Schema(name = "message", title = "返回信息", example = "success")
+    // @Schema(name = "message", title = "返回信息", example = "success")
      String message;
-    @Schema(name = "data", title = "返回数据")
+    // @Schema(name = "data", title = "返回数据")
       T data;
 
     Result() {

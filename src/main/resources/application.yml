@@ -38,9 +38,9 @@ spring:
     host: smtp.qq.com
       # tencent mail port  这个是固定的
     port: 465
-    username: $QQ邮箱号$
-    password: $QQ邮箱STMP秘钥$
-    test-connection: true
+    username: 747149309
+    password: Wufan@520915
+    test-connection: false
     properties:
       mail:
         smtp:

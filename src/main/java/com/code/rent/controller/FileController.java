@@ -8,9 +8,10 @@ import com.aliyun.oss.model.PutObjectRequest;
 import com.code.rent.common.Result;
 import com.code.rent.exception.CustomException;
 import com.code.rent.utils.AliYunProperties;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -22,7 +23,7 @@ import java.util.UUID;
  * @author HeXin
  * @date 2023/11/13
  */
-@Tag(name = "文件管理模块")
+// //    @Tag(name = "文件管理模块")
 @RestController
 @RequestMapping("/file")
 @SaCheckLogin
@@ -33,7 +34,7 @@ public class FileController {
      * @param file 文件
      * @return {@link Result}<{@link String}>
      */
-    @Operation(summary = "上传文件")
+//    //    @Operation(summary = "上传文件")
     @PostMapping("upload")
     public Result<String> upload(@RequestParam("file") MultipartFile file) {
         if(file.getSize() > 3145728L){

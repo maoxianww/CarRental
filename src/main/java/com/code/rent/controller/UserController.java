@@ -14,12 +14,10 @@ import com.code.rent.utils.EmailUtils;
 import com.code.rent.utils.PasswordUtils;
 import com.code.rent.utils.RedisUtil;
 import com.code.rent.utils.ValidateCodeUtils;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "用户模块")
+// //    @Tag(name = "用户模块")
 @RestController
 @SaCheckLogin
 @RequestMapping("/user")
@@ -33,13 +31,13 @@ public class UserController {
     @Autowired
     private RedisUtil redisUtil;
 
-    @Operation(summary = "登录")
+//    //    @Operation(summary = "登录")
     @PostMapping("/login")
     public Result<String> login(@RequestBody LoginParam login){
         return Result.success(userService.login(login));
     }
 
-    @Operation(summary = "退出登录")
+//    //    @Operation(summary = "退出登录")
     @SaIgnore
     @GetMapping("/logout")
     public Result<String> logout() {
@@ -47,7 +45,7 @@ public class UserController {
         return Result.success();
     }
 
-    @Operation(summary = "修改个人信息")
+//    //    @Operation(summary = "修改个人信息")
     @PutMapping("/updateInfo")
     public Result<String> updateInfo(@RequestBody UserDTO dto){
         User user = UserDTO.toPo(dto);
@@ -57,7 +55,7 @@ public class UserController {
         return Result.isSuccess(userService.updateById(user));
     }
 
-    @Operation(summary = "发送验证码")
+//    //    @Operation(summary = "发送验证码")
     @SaIgnore
     @GetMapping("/sendCode")
     public Result sendCode(@RequestParam("email") String email){
@@ -70,14 +68,14 @@ public class UserController {
         return Result.success();
     }
 
-    @Operation(summary = "注册账号")
+//    //    @Operation(summary = "注册账号")
     @SaIgnore
     @PostMapping("/regist")
     public Result regist(@RequestBody UserDTO dto, @RequestParam("code") String code){
         return Result.isSuccess(userService.regist(dto,code));
     }
 
-    @Operation(summary = "获取用户信息")
+//    //    @Operation(summary = "获取用户信息")
     @GetMapping("/info")
     public Result<UserInfo> getUserInfo(){
         String id = StpUtil.getLoginIdAsString();

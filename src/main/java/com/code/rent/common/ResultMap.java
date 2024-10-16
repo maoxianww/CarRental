@@ -1,7 +1,6 @@
 package com.code.rent.common;
 
 import com.code.rent.constants.CodeEnum;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.HashMap;
@@ -12,7 +11,7 @@ import java.util.Map;
  * @author HeXin
  */
 @Data
-@Schema(name = "ResultMap",title = "通用返回键值对对象")
+// @Schema(name = "ResultMap",title = "通用返回键值对对象")
 public class ResultMap extends Result<Map<String,Object>>{
     String message;
     Integer code;

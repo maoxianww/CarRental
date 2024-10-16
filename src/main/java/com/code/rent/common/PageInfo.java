@@ -1,6 +1,5 @@
 package com.code.rent.common;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -12,17 +11,17 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
-@Schema(name = "PageInfo",title = "通用分页返回结果")
+// @Schema(name = "PageInfo",title = "通用分页返回结果")
 public class PageInfo<T> {
-    @Schema(name = "list",description = "分页详细数据")
+    // @Schema(name = "list",description = "分页详细数据")
     List<T> list;
-    @Schema(name = "total",description = "分页数据总数")
+    // @Schema(name = "total",description = "分页数据总数")
     long total;
-    @Schema(name = "current",description = "当前页数")
+    // @Schema(name = "current",description = "当前页数")
     long current;
-    @Schema(name = "size",description = "总数据量")
+    // @Schema(name = "size",description = "总数据量")
     long size;
-    @Schema(name = "sizes",description = "总分页页数")
+    // @Schema(name = "sizes",description = "总分页页数")
     long pages;
 
 }

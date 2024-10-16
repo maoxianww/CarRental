@@ -1,12 +1,9 @@
 package com.code.rent.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.code.rent.entity.base.BaseEntity;
 import com.code.rent.entity.vo.OrderVO;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -25,7 +22,7 @@ import java.util.Date;
 @TableName(value ="`order`")
 @Data
 @Accessors(chain = true)
-@Schema(name = "用户类",description = "用户实体类")
+// @Schema(name = "用户类",description = "用户实体类")
 public class Order extends BaseEntity implements Serializable{
 
     /**
